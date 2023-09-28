@@ -15,19 +15,19 @@ function App(){
     {
       id: 1,
       title: "My First Post",
-      datetime: "2021-10-01 12:00:00",
+      datetime: "July 16, 2021 11:47:39 AM",
       body: " Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem architecto et iusto sit commodi doloribus consequatur quibusdam consequuntur quia illo quos ut sequi quidem, aliquid quisquam dolorem temporibus at culpa?Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores optio amet aperiam sed! Excepturi mollitia a voluptatibus repellendus ab consequuntur."
     },
     {
       id: 2,
       title: "My Second Post",
-      datetime: "2021-10-02 12:00:00",
+      datetime: "July 16, 2021 11:47:39 AM",
       body: "Lorem icing elit. Autem architecto et iusto sit commodi doloribus consequatur quibusdam consequuntur quia illo quos ut sequi quidem, aliquid quisquam dolorem temporibus at culpa? amet ame kaavab banilie ssd porhre saac arrvzfaln sdioor nsz lsi elib bako le jis dsconsectetur adipisicing elit. Maiores optio amet aperiam sed! Excepturi mollitia a voluptatibus repellendus ab consequuntur."
     },
     {
       id: 3,
       title: "My Third Post",
-      datetime: "2021-10-03 12:00:00",
+      datetime: "July 16, 2021 11:47:39 AM",
       body: "Lorem ips adipisicing elit. sed! Excepturi mollitia a voluptatibus repellendus ab consequuntur."
     }
   ]);
@@ -43,14 +43,14 @@ function App(){
         || (((post.title).toLowerCase()).includes(search.toLowerCase()))
       );
     
-    setSearchResults(filteredPosts.reverse());
+    setSearchResults(filteredPosts);
 
   }, [posts,search])
 
   const handleSubmit= (e)=>{
     e.preventDefault();
     const id= posts.lenght ? (posts[posts.length-1].id +1) : 1;
-    const datetime = format(new Date(), "yyyy-MM-dd HH:mm:ss");
+    const datetime = format(new Date(), "MMMM dd, yyyy pp");
     const newPost = {id,title:postTitle,datetime, body:postBody};
     setPosts([...posts, newPost]);
     setPostTitle('');
