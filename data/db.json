@@ -1,0 +1,16 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "1nd post: Fetch vs Axios",
+      "datetime": "September 29, 2023 8:45:09 PM",
+      "body": "Well we know that in mordern react we mostly use axios, but why ??\nSo that's because,  Axios provides some prebuild code"
+    },
+    {
+      "id": 2,
+      "title": "2nd Post ",
+      "datetime": "October 01, 2023 12:20:27 AM",
+      "body": "Harleys in Hawai - Katy Perry,\n\nThe Color Violet - Tory Lamez"
+    }
+  ]
+}
