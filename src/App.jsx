@@ -1,13 +1,12 @@
-import Header from "./components/Header";
-import Nav from "./components/Nav";
+import Layout from "./Layout";
 import NewPost from "./components/NewPost";
 import EditPost from "./components/EditPost"
 import PostPage from "./components/PostPage";
 import About from "./components/About";
 import Missing from "./components/Missing";
-import Footer from "./components/Footer";
+
 import Home from "./components/Home";
-import { useHistory, Switch, Route } from "react-router-dom";
+import { useNavigate, Routes , Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {format} from 'date-fns';
 import api from './api/posts';
@@ -20,7 +19,7 @@ function App(){
   const [postBody ,setPostBody] =useState('');
   const [editTitle, setEditTitle] = useState('');
   const [editBody, setEditBody] = useState('');
-  const history = useHistory();
+  const navigate = useNavigate();
 
   useEffect(()=>{
     const fetchPosts= async()=>{
@@ -63,7 +62,7 @@ function App(){
       setPosts([...posts, response.data]);
       setPostTitle('');
       setPostBody('');
-      history.push('/');
+      navigate('/');
     } catch(err) {
       console.log(`Error: ${err.message}`);
     }
@@ -77,7 +76,7 @@ function App(){
       setPosts(posts.map(post => post.id === id ? {...response.data} : {posts}))
       setEditTitle('');
       setEditBody('');
-      history.push('/');
+      navigate('/');
     }catch(err){
       console.log(`Error in handleEdit ${err.message}`)
     }
@@ -88,50 +87,47 @@ function App(){
       const response = await api.delete (`/posts/${id}`)
       const postList= posts.filter((post)=> post.id !== id);
       setPosts(postList);
-      history.push('/');
+      navigate('/');
     } catch(err) {
       console.log(`Error: ${err.message}`);
     }
   }
   return (
-    <div className="App">
-      <Header title={"My React Blog Page"} />
-      <Nav search={search} setSearch={setSearch} />
-      <Switch>
-        <Route exact path="/">
-          <Home posts={searchResults} />
-        </Route>
-        <Route exact path="/post">
-          <NewPost 
+    
+    <Routes>
+      <Route path="/" element={<Layout
+        search={search}
+        setSearch={setSearch}
+      />}>
+        <Route index element={<Home posts={searchResults} />}/>
+        <Route  path="post">
+          <Route index element = {<NewPost 
             handleSubmit={handleSubmit}
             postTitle={postTitle}
             postBody={postBody}
             setPostBody={setPostBody}
             setPostTitle={setPostTitle}
-          />
+          />} />
+          <Route path="post/:id" element={<PostPage 
+            posts={posts} 
+            handleDelete={handleDelete}
+          />} />
+        
         </Route>
-        <Route exact path="/edit/:id">
-          <EditPost 
-            posts={posts}
-            handleEdit={handleEdit}
-            editTitle={editTitle}
-            editBody={editBody}
-            setEditBody={setEditBody}
-            setEditTitle={setEditTitle}
-          />
-        </Route>
-        <Route exact path="/post/:id">
-          <PostPage posts={posts} handleDelete={handleDelete}/>
-        </Route>
-        <Route exact path="/about">
-          <About />
-        </Route>
-        <Route path="*">
-          <Missing />
-        </Route>
-      </Switch>
-      <Footer />
-    </div>
+        <Route path="/edit/:id" element={<EditPost 
+          posts={posts}
+          handleEdit={handleEdit}
+          editTitle={editTitle}
+          editBody={editBody}
+          setEditBody={setEditBody}
+          setEditTitle={setEditTitle}
+        />} />
+        
+        <Route path="about" element={<About />} />
+        
+        <Route path="*" element={<Missing />} /> 
+      </Route>
+    </Routes>
   )
 }
 export default App
